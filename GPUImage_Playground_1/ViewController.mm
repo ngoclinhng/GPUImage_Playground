@@ -22,6 +22,23 @@
     // Setup gpuImageView
     CGRect frame = CGRectMake(0.0, 0.0, self.view.frame.size.width, self.view.frame.size.height);
     gpuImageView = [[GPUImageView alloc] initWithFrame:frame];
+    
+    // add gpuImageView to self
+    [self.view addSubview:gpuImageView];
+    
+    // Read in the lena image
+    UIImage *lena = [UIImage imageNamed:@"lena"];
+    
+    // Initialize filters
+    GPUImagePicture *stillImageSource = [[GPUImagePicture alloc] initWithImage:lena];
+    GPUImageSepiaFilter *stillImageFilter = [[GPUImageSepiaFilter alloc] init];
+    
+    // chain filters together
+    [stillImageSource addTarget:stillImageFilter];
+    [stillImageFilter addTarget:gpuImageView];
+    
+    // process image
+    [stillImageSource processImage];
 }
 
 
